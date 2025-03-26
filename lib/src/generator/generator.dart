@@ -26,7 +26,8 @@ class QrBarGen {
           version: QrVersions.auto,
           size: opts.size,
           backgroundColor: opts.bg,
-          foregroundColor: opts.fg,
+          eyeStyle: QrEyeStyle(color: opts.fg),
+          dataModuleStyle: QrDataModuleStyle(color: opts.fg),
         );
 
       case QrBarType.c128:

@@ -17,7 +17,7 @@ class QrBarScanResult {
 
   /// Creates a new scan result containing the scanned value and type.
   QrBarScanResult({required this.value, required this.type, DateTime? time})
-    : time = time ?? DateTime.now();
+      : time = time ?? DateTime.now();
 
   @override
   String toString() =>

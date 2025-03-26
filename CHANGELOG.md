@@ -1,3 +1,12 @@
+## 0.0.2
+
+🔧 Maintenance & Cleanup
+
+- ✅ Replaced deprecated `foregroundColor` in `QrImageView` with `eyeStyle` and `dataModuleStyle`
+- ✅ Fixed Dart formatting issues (`dart format .`)
+  
+---
+
 ## 0.0.1
 
 🎉 Initial release of `qrbar`.

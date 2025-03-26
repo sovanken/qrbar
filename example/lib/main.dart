@@ -74,19 +74,18 @@ class QrBarScannerScreen extends StatelessWidget {
           Navigator.pop(context); // Close scanner screen
           showDialog(
             context: context,
-            builder:
-                (_) => AlertDialog(
-                  title: const Text('Scan Result'),
-                  content: Text(
-                    'Value: ${result.value}\nType: ${result.type.label}',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
-                    ),
-                  ],
+            builder: (_) => AlertDialog(
+              title: const Text('Scan Result'),
+              content: Text(
+                'Value: ${result.value}\nType: ${result.type.label}',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
                 ),
+              ],
+            ),
           );
         },
       ),
