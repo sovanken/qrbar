@@ -7,7 +7,6 @@ version: 0.0.1
 homepage: https://github.com/sovanken/qrbar
 repository: https://github.com/sovanken/qrbar
 issue_tracker: https://github.com/sovanken/qrbar/issues
-publish_to: "https://pub.dev"
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
