@@ -61,12 +61,6 @@ In `android/app/src/main/AndroidManifest.xml`:
 </application>
 ```
 
-In `android/app/build.gradle`:
-
-```gradle
-minSdkVersion 21
-```
-
 ---
 
 ### iOS
@@ -147,18 +141,6 @@ class QrBarScanResult {
   final DateTime time;
 }
 ```
-
----
-
-## 📂 Example App
-
-A full working demo is available in the [`example/`](example) folder.
-
----
-
-## 🔗 Repository
-
-[github.com/sovanken/qrbar](https://github.com/sovanken/qrbar)
 
 ---
 
