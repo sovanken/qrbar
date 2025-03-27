@@ -1,31 +1,49 @@
+# 📦 QRBar
 
-# 📦 qrbar
-
-**qrbar** is a lightweight Flutter package for scanning and generating QR codes and barcodes.  
-It wraps common functionality into a clean, unified API — making it easy to integrate with any Flutter app.
+**QRBar** is a comprehensive Flutter package for scanning, generating, and exporting QR codes and barcodes. It provides a unified API with extensive customization options and advanced styling features.
 
 ---
 
 ## ✨ Features
 
-- 📷 Scan QR codes and various barcodes using the device camera
-- 🧾 Generate QR codes or barcodes as Flutter widgets
-- 🎨 Customizable output: size, foreground/background color
-- 🔒 Clean and minimal API with no third-party exposure
-- 🔁 Supports multiple formats including `QR`, `Code128`, `EAN13`, `UPC`, `PDF417`, `Aztec`, `DataMatrix`
+### 🎨 Barcode Generation
+- Create QR codes and multiple 1D/2D barcode formats as Flutter widgets
+- 10 unique QR code styles with different visual appearances
+- Extensive customization with colors, logos, frames, and effects
+- Simple widget-based API that integrates seamlessly with standard Flutter layouts
+
+### 📷 Code Scanning
+- Camera-based scanning of all supported barcode formats
+- Clean callback-based API for handling scan results
+- Support for continuous scanning or single-scan modes
+- Automatic format detection and conversion
+
+### 💾 Export Capabilities
+- Save generated codes as PNG images to the device
+- Share codes directly to other apps via the system share sheet
+- Get raw image bytes for custom handling and network operations
+
+### 🔄 Supported Formats
+- QR Code (2D)
+- Code 128 (1D)
+- EAN-13 (1D)
+- UPC-A (1D)
+- PDF417 (2D stacked linear)
+- Aztec Code (2D)
+- Data Matrix (2D)
 
 ---
 
 ## ✅ Platform Support
 
-| Platform | Generate | Scan |
-|----------|----------|------|
-| Android  | ✅        | ✅    |
-| iOS      | ✅        | ✅    |
-| Web      | ✅ (QR only) | ❌ |
-| Windows  | ✅ (QR only) | ❌ |
-| macOS    | ✅ (QR only) | ❌ |
-| Linux    | ✅ (QR only) | ❌ |
+| Platform | Generate | Scan | Save/Export |
+|----------|----------|------|------------|
+| Android  | ✅        | ✅    | ✅         |
+| iOS      | ✅        | ✅    | ✅         |
+| Web      | ✅        | ❌    | ❌         |
+| Windows  | ✅        | ❌    | ✅         |
+| macOS    | ✅        | ❌    | ✅         |
+| Linux    | ✅        | ❌    | ✅         |
 
 > ⚠️ Camera-based scanning is only supported on **Android** and **iOS**.
 
@@ -37,7 +55,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  qrbar: ^0.0.1
+  qrbar: ^0.0.4
 ```
 
 Then run:
@@ -48,97 +66,229 @@ flutter pub get
 
 ---
 
-## ⚙️ Platform Setup (for Scanning)
+## ⚙️ Platform Setup
 
-### Android
+### For Scanning (Android & iOS)
 
-In `android/app/src/main/AndroidManifest.xml`:
+#### Android
+
+In `android/app/src/main/AndroidManifest.xml`, add:
 
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
-<application>
-  ...
-</application>
 ```
 
----
+#### iOS
 
-### iOS
-
-In `ios/Runner/Info.plist`:
+In `ios/Runner/Info.plist`, add:
 
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Camera access is required for scanning QR and barcodes.</string>
 ```
 
+### For Saving/Exporting
+
+#### Android
+
+In `android/app/src/main/AndroidManifest.xml`, add:
+
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+```
+
+For Android 10+ (API level 29+), add:
+
+```xml
+<application
+    ...
+    android:requestLegacyExternalStorage="true">
+```
+
+#### iOS
+
+No additional configuration needed for saving to app documents directory.
+
 ---
 
-## 💡 Quick Usage
+## 💡 Usage Examples
 
-### Generate a QR Code
+### Generating and Displaying a QR Code
 
 ```dart
-import 'package:qrbar/qrbar.dart';
-
+// Basic QR code
 QrBarGenView(
-  data: 'https://example.com',
+  data: 'https://flutter.dev',
   type: QrBarType.qr,
-  size: 200,
-);
-```
+)
 
-### Generate a Barcode
-
-```dart
+// Styled QR code with gradient effect
 QrBarGenView(
-  data: '1234567890',
-  type: QrBarType.c128,
+  data: 'https://flutter.dev',
+  type: QrBarType.qr,
+  qrStyle: QrStyle.gradient,
+  fg: Colors.purple,
+  secondaryColor: Colors.blue,
+  size: 250,
+)
+
+// Generate a barcode
+QrBarGenView(
+  data: '5901234123457',
+  type: QrBarType.ean13,
   size: 200,
-);
+)
 ```
 
-### Scan a QR or Barcode
+### Scanning Barcodes
 
 ```dart
 QrBarScanView(
-  onScan: (QrBarScanResult result) {
-    print('Scanned: ${result.value} (${result.type.label})');
+  onScan: (result) {
+    // Handle the scan result
+    print('Scanned: ${result.value}');
+    print('Format: ${result.type.label}');
+    
+    // Check the code type and handle accordingly
+    if (result.type == QrBarType.qr) {
+      if (result.value.startsWith('http')) {
+        launchUrl(Uri.parse(result.value));
+      }
+    } else if (result.type == QrBarType.ean13) {
+      lookupProduct(result.value);
+    }
   },
+  allowMulti: true, // Enables continuous scanning
+)
+```
+
+### Exporting QR Codes
+
+```dart
+// Save to file
+final path = await QrExporter.saveToFile(
+  data: 'https://flutter.dev',
+  type: QrBarType.qr,
+  qrStyle: QrStyle.framed,
+  frameColor: Colors.blue,
 );
+
+if (path != null) {
+  print('QR code saved to: $path');
+}
+
+// Share with other apps
+await QrExporter.share(
+  data: 'WIFI:S:MyNetwork;P:password123;;',
+  type: QrBarType.qr,
+  subject: 'WiFi Connection',
+);
+
+// Get image bytes for custom handling
+final bytes = await QrExporter.getBytes(
+  data: '5901234123457',
+  type: QrBarType.ean13,
+  size: 300,
+);
+
+if (bytes != null) {
+  // Use the bytes for your custom needs
+  await uploadToServer(bytes);
+}
+```
+
+---
+
+## 🧩 Advanced Styling
+
+QRBar provides 10 different visual styles for QR codes:
+
+```dart
+enum QrStyle {
+  standard,    // Classic QR code
+  rounded,     // QR code with rounded data modules
+  withLogo,    // QR code with a center logo
+  gradient,    // QR code with color gradient
+  fancyEyes,   // Custom colored eye patterns
+  dots,        // Dots instead of squares
+  framed,      // QR with decorative frame
+  shadow,      // QR with drop shadow
+  mosaic,      // Checkerboard pattern
+  pixelArt,    // Retro pixel art style
+}
+```
+
+Each style supports various customization options:
+
+```dart
+QrBarGenView(
+  data: 'https://flutter.dev',
+  type: QrBarType.qr,
+  qrStyle: QrStyle.gradient,
+  fg: Colors.blue,          // Primary color
+  secondaryColor: Colors.purple,  // Secondary color for gradient
+  size: 250,
+)
+```
+
+For the `withLogo` style, provide an image:
+
+```dart
+QrBarGenView(
+  data: 'https://flutter.dev',
+  type: QrBarType.qr,
+  qrStyle: QrStyle.withLogo,
+  logo: AssetImage('assets/logo.png'),
+)
 ```
 
 ---
 
 ## 🧱 API Reference
 
-### Code Type
+### QrBarType
 
 ```dart
 enum QrBarType {
-  qr, c128, ean13, upc, pdf417, aztec, dm
+  qr,      // QR Code (2D)
+  c128,    // Code 128 (1D)
+  ean13,   // EAN-13 (1D)
+  upc,     // UPC-A (1D)
+  pdf417,  // PDF417 (2D stacked linear)
+  aztec,   // Aztec Code (2D)
+  dm,      // Data Matrix (2D)
 }
 ```
 
-### Generator Config
+### QrBarGenOpts
 
 ```dart
 class QrBarGenOpts {
-  final String data;
-  final QrBarType type;
-  final double size;
-  final Color bg;
-  final Color fg;
+  final String data;           // Content to encode
+  final QrBarType type;        // Code format to generate
+  final double size;           // Size of the generated code
+  final Color bg;              // Background color
+  final Color fg;              // Foreground color
+  final QrStyle qrStyle;       // Style for QR codes
+  final ImageProvider? logo;   // Logo for withLogo style
+  final Color? secondaryColor; // Secondary color for gradients
+  final Color? tertiaryColor;  // Tertiary color for pixelArt
+  final Color? frameColor;     // Frame color 
+  final double frameWidth;     // Frame width
+  final Color? shadowColor;    // Shadow color
+  final Offset shadowOffset;   // Shadow offset
+  final double shadowBlurRadius; // Shadow blur
 }
 ```
 
-### Scan Result
+### QrBarScanResult
 
 ```dart
 class QrBarScanResult {
-  final String value;
-  final QrBarType type;
-  final DateTime time;
+  final String value;     // The decoded data
+  final QrBarType type;   // Format of the scanned code
+  final DateTime time;    // Timestamp of the scan
 }
 ```
 
@@ -147,4 +297,3 @@ class QrBarScanResult {
 ## 📄 License
 
 MIT License © 2025 [Sovanken](https://github.com/sovanken)
-```

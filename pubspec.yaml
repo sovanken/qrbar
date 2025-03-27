@@ -3,7 +3,7 @@ description: >
   A lightweight Flutter package to scan and generate QR codes and barcodes
   with a clean and unified API.
 
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/sovanken/qrbar
 repository: https://github.com/sovanken/qrbar
 issue_tracker: https://github.com/sovanken/qrbar/issues
@@ -18,6 +18,8 @@ dependencies:
   qr_flutter: ^4.1.0
   barcode_widget: ^2.0.4
   mobile_scanner: ^6.0.7
+  path_provider: ^2.1.5
+  share_plus: ^10.1.4
 
 dev_dependencies:
   flutter_test:

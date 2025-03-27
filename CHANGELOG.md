@@ -1,3 +1,9 @@
+## 0.0.4
+
+- Added 10 unique QR code styles (standard, rounded, withLogo, gradient, fancyEyes, dots, framed, shadow, mosaic, pixelArt)
+- Implemented QR code export functionality (saveToFile, share, getBytes)
+- Added support for additional barcode formats (PDF417, Aztec, Data Matrix)
+
 ## 0.0.3
 
 - Fixed scan screen pop context error
