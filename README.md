@@ -55,7 +55,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  qrbar: ^0.0.4
+  qrbar: ^0.0.5
 ```
 
 Then run:

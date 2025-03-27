@@ -246,13 +246,28 @@ class CustomQrImage extends StatelessWidget {
   Future<ui.Image> _generateQrImage() async {
     final QrPainter painter = QrPainter(
       data: data,
-      color: Colors.black,
-      emptyColor: Colors.transparent,
       version: QrVersions.auto,
+      // Fix: Replace deprecated 'color' with proper styling
+      eyeStyle: const QrEyeStyle(
+        eyeShape: QrEyeShape.square,
+        color: Colors.black,
+      ),
+      dataModuleStyle: const QrDataModuleStyle(
+        dataModuleShape: QrDataModuleShape.square,
+        color: Colors.black,
+      ),
+      // Fix: Removed deprecated 'emptyColor' property
+      // We'll handle background coloring in the painters
     );
 
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
+
+    // First clear the background to transparent
+    final bgPaint = Paint()..color = Colors.transparent;
+    canvas.drawRect(Rect.fromLTWH(0, 0, size, size), bgPaint);
+
+    // Now paint the QR code
     painter.paint(canvas, Size(size, size));
     return recorder.endRecording().toImage(size.toInt(), size.toInt());
   }
