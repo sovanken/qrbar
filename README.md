@@ -1,8 +1,6 @@
 # 📦 QRBar
 
-**QRBar** is a comprehensive Flutter package for scanning, generating, and exporting QR codes and barcodes. It provides a unified API with extensive customization options and advanced styling features.
-
----
+**QRBar** is a comprehensive Flutter package for scanning and generating QR codes and barcodes. It provides a unified API with extensive customization options and advanced styling features.
 
 ## ✨ Features
 
@@ -18,11 +16,6 @@
 - Support for continuous scanning or single-scan modes
 - Automatic format detection and conversion
 
-### 💾 Export Capabilities
-- Save generated codes as PNG images to the device
-- Share codes directly to other apps via the system share sheet
-- Get raw image bytes for custom handling and network operations
-
 ### 🔄 Supported Formats
 - QR Code (2D)
 - Code 128 (1D)
@@ -32,18 +25,17 @@
 - Aztec Code (2D)
 - Data Matrix (2D)
 
----
 
 ## ✅ Platform Support
 
-| Platform | Generate | Scan | Save/Export |
-|----------|----------|------|------------|
-| Android  | ✅        | ✅    | ✅         |
-| iOS      | ✅        | ✅    | ✅         |
-| Web      | ✅        | ❌    | ❌         |
-| Windows  | ✅        | ❌    | ✅         |
-| macOS    | ✅        | ❌    | ✅         |
-| Linux    | ✅        | ❌    | ✅         |
+| Platform | Generate | Scan |
+|----------|----------|------|
+| Android  | ✅        | ✅    |
+| iOS      | ✅        | ✅    |
+| Web      | ✅        | ❌    |
+| Windows  | ✅        | ❌    |
+| macOS    | ✅        | ❌    |
+| Linux    | ✅        | ❌    |
 
 > ⚠️ Camera-based scanning is only supported on **Android** and **iOS**.
 
@@ -55,7 +47,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  qrbar: ^0.0.5
+  qrbar: ^0.0.7
 ```
 
 Then run:
@@ -86,29 +78,6 @@ In `ios/Runner/Info.plist`, add:
 <key>NSCameraUsageDescription</key>
 <string>Camera access is required for scanning QR and barcodes.</string>
 ```
-
-### For Saving/Exporting
-
-#### Android
-
-In `android/app/src/main/AndroidManifest.xml`, add:
-
-```xml
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-```
-
-For Android 10+ (API level 29+), add:
-
-```xml
-<application
-    ...
-    android:requestLegacyExternalStorage="true">
-```
-
-#### iOS
-
-No additional configuration needed for saving to app documents directory.
 
 ---
 
@@ -161,41 +130,6 @@ QrBarScanView(
   },
   allowMulti: true, // Enables continuous scanning
 )
-```
-
-### Exporting QR Codes
-
-```dart
-// Save to file
-final path = await QrExporter.saveToFile(
-  data: 'https://flutter.dev',
-  type: QrBarType.qr,
-  qrStyle: QrStyle.framed,
-  frameColor: Colors.blue,
-);
-
-if (path != null) {
-  print('QR code saved to: $path');
-}
-
-// Share with other apps
-await QrExporter.share(
-  data: 'WIFI:S:MyNetwork;P:password123;;',
-  type: QrBarType.qr,
-  subject: 'WiFi Connection',
-);
-
-// Get image bytes for custom handling
-final bytes = await QrExporter.getBytes(
-  data: '5901234123457',
-  type: QrBarType.ean13,
-  size: 300,
-);
-
-if (bytes != null) {
-  // Use the bytes for your custom needs
-  await uploadToServer(bytes);
-}
 ```
 
 ---
@@ -297,3 +231,5 @@ class QrBarScanResult {
 ## 📄 License
 
 MIT License © 2025 [Sovanken](https://github.com/sovanken)
+```
+

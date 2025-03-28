@@ -77,25 +77,6 @@
 /// )
 /// ```
 ///
-/// ### Exporting QR Codes
-///
-/// ```dart
-/// // Save to file
-/// final path = await QrExporter.saveToFile(
-///   data: 'https://flutter.dev',
-///   type: QrBarType.qr,
-///   qrStyle: QrStyle.framed,
-///   frameColor: Colors.blue,
-/// );
-///
-/// // Share with other apps
-/// await QrExporter.share(
-///   data: 'WIFI:S:MyNetwork;P:password123;;',
-///   type: QrBarType.qr,
-///   subject: 'WiFi Connection',
-/// );
-/// ```
-///
 /// ## Package Organization
 ///
 /// The package is structured around these core components:
@@ -132,7 +113,4 @@ export 'models/qr_style.dart';
 export 'src/generator/generator.dart';
 export 'src/generator/generator_widget.dart';
 export 'src/generator/custom_qr_painters.dart';
-
 export 'src/scanner/scanner.dart';
-
-export 'src/utils/qr_exporter.dart';

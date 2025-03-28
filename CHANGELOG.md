@@ -1,3 +1,10 @@
+## 0.0.7
+- Improved rendering pipeline to prevent UI thread conflicts
+
+## 0.0.6
+- Removed export and share features (QrExporter)
+- Simplified demo app UI to focus on generation & scanning only
+
 ## 0.0.5
 
 - Fixed focus manager conflict in QrExporter that caused crashes on Android/iOS
